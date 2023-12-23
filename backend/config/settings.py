@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "django_filters",
     # Local
+    "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
 ]
 
