@@ -2,31 +2,26 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class TimeStampedModel(models.Model):
-    created = models.DateTimeField(auto_add_now=True)
-    updated = models.DateTimeField(auto_add=True)
-
-    class Meta:
-        abstract = True
-
-
-class Book(TimeStampedModel):
-    class Language(models.TextChoices):
+class Book(models.Model):
+    class Languages(models.TextChoices):
         Persian = "fr", _("Persian")
         English = "en", _("English")
 
     title = models.CharField(max_length=255)
-    isbn = models.CharField(
-        max_length=10,
-    )
-    quantity = models.PositiveIntegerField()
-    price = models.DecimalField()
+    description = models.TextField()
+    isbn = models.CharField(max_length=10, unique=True)
+    quantity = models.PositiveIntegerField(default=0)
+    price = models.DecimalField(max_digits=5, decimal_places=2)
     num_pages = models.PositiveIntegerField()
     language = models.CharField(
-        max_length=2, choices=Language, default=Language.English
+        max_length=2, choices=Languages.choices, default=Languages.English
     )
     category = models.ManyToManyField("Category")
-    publisher = models.ManyToManyField("Publisher")
+    publisher = models.ForeignKey(
+        "Publisher", on_delete=models.CASCADE, related_name="books_publisher"
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["created"]
@@ -35,8 +30,10 @@ class Book(TimeStampedModel):
         return f"{self.title}"
 
 
-class Category(TimeStampedModel):
+class Category(models.Model):
     name = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["name"]
@@ -45,8 +42,10 @@ class Category(TimeStampedModel):
         return f"{self.name}"
 
 
-class Publisher(TimeStampedModel):
+class Publisher(models.Model):
     name = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["name"]
