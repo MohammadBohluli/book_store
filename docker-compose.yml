@@ -1,10 +1,6 @@
 version: "3.9"
 
 services:
-
-# ####################
-# PostgreSQL Database
-# ####################
   db:
     image: postgres:16.1-bullseye
     container_name: postgres-db
@@ -17,7 +13,6 @@ services:
       - POSTGRES_DB=book_store_db
     ports:
       - "5432:5432"
-
 
 
 volumes:

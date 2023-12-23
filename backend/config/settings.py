@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # set enviroment variables
 env = environ.Env()
-environ.Env.read_env(env_file=join(BASE_DIR.parent, ".env"), overwrite=True)
+environ.Env.read_env(env_file=join(BASE_DIR.parent, ".env.dev"), overwrite=True)
 
 
 SECRET_KEY = env("SECRET_KEY", cast=str)
