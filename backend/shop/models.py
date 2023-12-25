@@ -1,5 +1,7 @@
+from collections.abc import Iterable
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.utils.text import slugify
 
 
 class Book(models.Model):
@@ -32,7 +34,7 @@ class Book(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -41,6 +43,10 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name, allow_unicode=True)
+        return super().save(*args, **kwargs)
 
 
 class Publisher(models.Model):

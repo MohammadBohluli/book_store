@@ -24,8 +24,9 @@ class PublisherAdmin(admin.ModelAdmin):
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["name", "slug"]
     list_display_links = ["name"]
+    exclude = ["slug"]
 
 
 admin.site.register(models.Book, BookAdmin)
