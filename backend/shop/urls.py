@@ -5,7 +5,7 @@ from . import views
 
 router = DefaultRouter()
 
-router.register("books", views.BookViewSet, basename="book")
+router.register("books", views.BookViewSet, basename="books")
 router.register("categories", views.CategoryViewSet, basename="category")
 
 urlpatterns = [

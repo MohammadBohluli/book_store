@@ -9,7 +9,7 @@ class PublisherSerializer(serializers.ModelSerializer):
 
 
 class BookSerilizer(serializers.ModelSerializer):
-    publisher = PublisherSerializer(read_only=True)
+    # publisher = PublisherSerializer(read_only=True)
 
     class Meta:
         model = models.Book
