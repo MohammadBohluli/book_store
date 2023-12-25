@@ -28,6 +28,8 @@ class BookSerilizer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    slug = serializers.SlugField(read_only=True)
+
     class Meta:
         model = models.Category
         fields = ["id", "name", "slug"]
