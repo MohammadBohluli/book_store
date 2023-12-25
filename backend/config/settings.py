@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # Local
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
+    "review.apps.ReviewConfig",
 ]
 
 MIDDLEWARE = [
