@@ -104,6 +104,4 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 
-REST_FRAMEWORK = {
-    "COERCE_DECIMAL_TO_STRING": False,
-}
+REST_FRAMEWORK = {"COERCE_DECIMAL_TO_STRING": False}
