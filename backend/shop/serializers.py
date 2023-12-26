@@ -55,6 +55,12 @@ class CartItemSerializer(serializers.ModelSerializer):
         return cart_item.quantity * cart_item.book.price
 
 
+class CreatCartItemSerilizer(serializers.ModelSerializer):
+    class meta:
+        model = models.CartItem
+        fields = ["id", "book_id", "quantity"]
+
+
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
     items = CartItemSerializer(many=True, read_only=True)
