@@ -9,7 +9,7 @@ class Review(models.Model):
     date_created = models.DateField(auto_now_add=True)
 
     class Meta:
-        ordering = ["date_created"]
+        ordering = ["-date_created"]
 
     def __str__(self):
         return f"{self.description}"
