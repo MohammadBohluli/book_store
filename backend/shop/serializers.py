@@ -27,6 +27,14 @@ class BookSerilizer(serializers.ModelSerializer):
         ]
 
 
+class SimpleBookSerilizer(serializers.ModelSerializer):
+    """this serializer just for display in CartItemSerializer"""
+
+    class Meta:
+        model = models.Book
+        fields = ["id", "title", "price"]
+
+
 class CategorySerializer(serializers.ModelSerializer):
     slug = serializers.SlugField(read_only=True)
 
@@ -35,8 +43,17 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "slug"]
 
 
+class CartItemSerializer(serializers.ModelSerializer):
+    book = SimpleBookSerilizer()
+
+    class Meta:
+        model = models.CartItem
+        fields = ["id", "book", "quantity"]
+
+
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
+    items = CartItemSerializer(many=True)
 
     class Meta:
         model = models.Cart
