@@ -36,6 +36,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class CartSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
+
     class Meta:
         model = models.Cart
         fields = ["id"]
