@@ -29,6 +29,11 @@ class CategoryAdmin(admin.ModelAdmin):
     exclude = ["slug"]
 
 
+class CartAdmin(admin.ModelAdmin):
+    list_display = ["id"]
+
+
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.Publisher, PublisherAdmin)
 admin.site.register(models.Category, CategoryAdmin)
+admin.site.register(models.Cart, CartAdmin)
