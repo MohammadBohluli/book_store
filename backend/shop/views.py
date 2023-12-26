@@ -21,7 +21,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class CartViewSet(
-    mixins.CreateModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.DestroyModelMixin,
+    viewsets.GenericViewSet,
 ):
     queryset = models.Cart
     serializer_class = serializers.CartSerializer
