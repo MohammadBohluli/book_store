@@ -33,7 +33,12 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ["id"]
 
 
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ["cart", "book", "quantity"]
+
+
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.Publisher, PublisherAdmin)
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Cart, CartAdmin)
+admin.site.register(models.CartItem, CartItemAdmin)
