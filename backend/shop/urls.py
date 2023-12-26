@@ -15,9 +15,10 @@ books_router = routers.NestedSimpleRouter(router, "books", lookup="book")
 books_router.register("reviews", ReviewViewSet, basename="book-reviews")
 
 cart_router = routers.NestedSimpleRouter(router, "carts", lookup="cart")
-cart_router.register("items", viewset.CartItemViewSet, basename="cart-items")
+cart_router.register("items", views.CartItemViewSet, basename="cart-items")
 
 urlpatterns = [
     path("", include(router.urls)),
     path("", include(books_router.urls)),
+    path("", include(cart_router.urls)),
 ]
