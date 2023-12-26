@@ -2,6 +2,7 @@ from collections.abc import Iterable
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
+from uuid import uuid4
 
 
 class Book(models.Model):
@@ -59,3 +60,17 @@ class Publisher(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name}"
+
+
+class Cart(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.id)
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=0)
