@@ -55,8 +55,22 @@ class CartItemSerializer(serializers.ModelSerializer):
         return cart_item.quantity * cart_item.book.price
 
 
-class CreatCartItemSerilizer(serializers.ModelSerializer):
-    class meta:
+class AddCartItemSerilizer(serializers.ModelSerializer):
+    book_id = serializers.IntegerField()
+
+    def save(self, **kwargs):
+        cart_id = self.context["cart_id"]
+        book_id = self.validated_data["book_id"]
+        quantity = self.validated_data["quantity"]
+        try:
+            cart_item = models.CartItem.objects.get(cart_id=cart_id, book_id=book_id)
+            cart_item.quantity += quantity
+            self.instance = cart_item
+        except models.CartItem.DoesNotExist:
+            models.CartItem.objects.create(cart_id=cart_id, **self.validated_data)
+        return self.instance
+
+    class Meta:
         model = models.CartItem
         fields = ["id", "book_id", "quantity"]
 
