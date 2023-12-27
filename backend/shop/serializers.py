@@ -94,3 +94,9 @@ class CartSerializer(serializers.ModelSerializer):
         items = cart.items.all()
         result = sum([item.quantity * item.book.price for item in items])
         return result
+
+
+class UpdateCartItem(serializers.ModelSerializer):
+    class Meta:
+        model = models.CartItem
+        fields = ["quantity"]
