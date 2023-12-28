@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.conf import settings
 
 
 class CustomUserManager(BaseUserManager):
@@ -50,3 +51,9 @@ class CustomUser(AbstractUser):
 
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phone = models.CharField(max_length=255)
+    birth_date = models.DateField(null=True, blank=True)
