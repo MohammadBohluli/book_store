@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from uuid import uuid4
+from django.core.validators import MinValueValidator
 
 
 class Book(models.Model):
@@ -73,4 +74,4 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField(default=0)
+    quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
