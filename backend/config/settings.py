@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # Third-Party
     "rest_framework",
     "django_filters",
+    "djoser",
     # Local
     "accounts.apps.AccountsConfig",
     "shop.apps.ShopConfig",
@@ -105,4 +106,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "accounts.CustomUser"
 
 
-REST_FRAMEWORK = {"COERCE_DECIMAL_TO_STRING": False}
+REST_FRAMEWORK = {
+    "COERCE_DECIMAL_TO_STRING": False,
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("JWT",),
+}
