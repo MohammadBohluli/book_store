@@ -1,5 +1,6 @@
 from pathlib import Path
 from os.path import join
+from datetime import timedelta
 
 # Thrid-party
 import environ
@@ -115,4 +116,9 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=120),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
+
+
+DJOSER = {"SERIALIZERS": {"current_user": "accounts.serializers.UserSerializer"}}
