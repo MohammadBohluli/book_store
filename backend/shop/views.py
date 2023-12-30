@@ -1,9 +1,10 @@
-from . import models
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 from .permissions import IsAdminOrReadOnly
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from . import models
 from . import paginations
 from . import filters
 from . import serializers
@@ -54,13 +55,19 @@ class CartItemViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
+    def create(self, request, *args, **kwargs):
+        serializer = serializers.CreateOrderSerializer(
+            data=request.data, context={"user_id": self.request.user.id}
+        )
+        serializer.is_valid(raise_exception=True)
+        order = serializer.save()
+        serializer = serializers.OrderSerializer(order)
+        return Response(serializer.data)
+
     def get_serializer_class(self):
         if self.request.method == "POST":
             return serializers.CreateOrderSerializer
         return serializers.OrderSerializer
-
-    def get_serializer_context(self):
-        return {"user_id": self.request.user.id}
 
     def get_queryset(self):
         user = self.request.user
