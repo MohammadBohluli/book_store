@@ -2,8 +2,9 @@ from collections.abc import Iterable
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
-from uuid import uuid4
 from django.core.validators import MinValueValidator
+from accounts.models import Customer
+from uuid import uuid4
 
 
 class Book(models.Model):
@@ -75,3 +76,25 @@ class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name="items")
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
+
+
+class Order(models.Model):
+    class PendingStatus(models.TextChoices):
+        PAYMENT_STATUS_COMPLETE = "C", _("Complete")
+        PAYMENT_STATUS_PENDING = "P", _("Pending")
+        PAYMENT_STATUS_FAILED = "F", _("Failed")
+
+    placed_at = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(
+        max_length=1,
+        choices=PendingStatus.choices,
+        default=PendingStatus.PAYMENT_STATUS_PENDING,
+    )
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name="items")
+    book = models.ForeignKey(Book, on_delete=models.PROTECT, related_name="orderitems")
+    quantity = models.PositiveSmallIntegerField()
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
