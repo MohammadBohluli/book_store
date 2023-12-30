@@ -72,6 +72,8 @@ class OrderViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == "POST":
             return serializers.CreateOrderSerializer
+        elif self.request.method == "PATCH":
+            return serializers.UpdateOrderSerializer
         return serializers.OrderSerializer
 
     def get_queryset(self):
