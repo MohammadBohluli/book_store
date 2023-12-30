@@ -12,6 +12,7 @@ router.register("books", views.BookViewSet, basename="book")
 router.register("categories", views.CategoryViewSet, basename="category")
 router.register("carts", views.CartViewSet, basename="cart")
 router.register("customers", CustomerViewSet, basename="customer")
+router.register("orders", views.OrderViewSet, basename="order")
 
 books_router = routers.NestedSimpleRouter(router, "books", lookup="book")
 books_router.register("reviews", ReviewViewSet, basename="book-reviews")
