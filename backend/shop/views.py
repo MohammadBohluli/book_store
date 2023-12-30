@@ -52,9 +52,15 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    queryset = models.Order.objects.all()
-    serializer_class = serializers.OrderSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return serializers.CreateOrderSerializer
+        return serializers.OrderSerializer
+
+    def get_serializer_context(self):
+        return {"user_id": self.request.user.id}
 
     def get_queryset(self):
         user = self.request.user

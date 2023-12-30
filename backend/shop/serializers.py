@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db import transaction
 from . import models
 
 
@@ -116,3 +117,27 @@ class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Order
         fields = ["id", "customer", "placed_at", "payment_status", "items"]
+
+
+class CreateOrderSerializer(serializers.Serializer):
+    cart_id = serializers.UUIDField()
+
+    def save(self, **kwargs):
+        with transaction.atomic():
+            cart_id = self.validated_data["cart_id"]
+            customer = models.Customer.objects.get(user_id=self.context["user_id"])
+            order = models.Order.objects.create(customer=customer)
+            cart_items = models.CartItem.objects.filter(cart_id=cart_id)
+
+            order_item = [
+                models.OrderItem(
+                    order=order,
+                    book=item.book,
+                    quantity=item.quantity,
+                    unit_price=item.book.price,
+                )
+                for item in cart_items
+            ]
+
+            models.OrderItem.objects.bulk_create(order_item)
+            models.Cart.objects.filter(pk=cart_id).delete()
