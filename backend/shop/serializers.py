@@ -100,3 +100,9 @@ class UpdateCartItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CartItem
         fields = ["quantity"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = ["id", "customer", "placed_at", "payment_status"]
