@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
 from .permissions import IsAdminOrReadOnly
+from rest_framework.permissions import IsAuthenticated
 from . import paginations
 from . import filters
 from . import serializers
@@ -53,3 +54,11 @@ class CartItemViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = models.Order.objects.all()
     serializer_class = serializers.OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_staff:
+            return models.Order.objects.all()
+        customer_id = models.Customer.objects.get(user_id=user.id)
+        return models.Order.objects.filter(customer_id=customer_id)
