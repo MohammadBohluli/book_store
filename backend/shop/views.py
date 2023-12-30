@@ -2,6 +2,7 @@ from . import models
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins
+from .permissions import IsAdminOrReadOnly
 from . import paginations
 from . import filters
 from . import serializers
@@ -12,12 +13,14 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.BookSerilizer
     filter_backends = [DjangoFilterBackend]
     filterset_class = filters.BookFilter
+    permission_classes = [IsAdminOrReadOnly]
     pagination_class = paginations.CustomPagination
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class CartViewSet(
