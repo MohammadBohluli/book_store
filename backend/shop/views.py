@@ -48,3 +48,8 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return models.CartItem.objects.filter(cart_id=self.kwargs["cart_pk"])
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderSerializer
