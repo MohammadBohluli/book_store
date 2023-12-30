@@ -37,8 +37,18 @@ class CartItemAdmin(admin.ModelAdmin):
     list_display = ["cart", "book", "quantity"]
 
 
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ["placed_at", "payment_status", "customer"]
+
+
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ["order", "book", "quantity", "unit_price"]
+
+
 admin.site.register(models.Book, BookAdmin)
 admin.site.register(models.Publisher, PublisherAdmin)
 admin.site.register(models.Category, CategoryAdmin)
 admin.site.register(models.Cart, CartAdmin)
 admin.site.register(models.CartItem, CartItemAdmin)
+admin.site.register(models.Order, OrderAdmin)
+admin.site.register(models.OrderItem, OrderItemAdmin)
